@@ -10,8 +10,14 @@ e = ''
 boxchecka = 0
 boxcheckp = 0
 boxchecki = 0
+global p1, p2, p3, p4, lv
+p1 = 'Espécie'
+p2 = 'Porte'
+p3 = 'Idade'
+p4 = 'Cor'
+lv = [p1, p2, p3, p4]
 
-#Main
+#Main 
 ctki.set_appearance_mode('light')
 ctki.set_default_color_theme('green')
 janlog = ctki.CTk()
@@ -243,7 +249,7 @@ def esq():
                     reer = ctki.CTkToplevel(janlog)
                     reer.geometry('500x300')
                     reer.title('ERRO')
-                    reel = ctki.CTkLabel(reer, text='Resposta de segurança incorreta', font=ctki.CTkFont(size=20))
+                    reel = ctki.CTkLabel(reer, text='Resposta incorreta', font=ctki.CTkFont(size=20))
                     def reerv():
                         reer.destroy()
                         reer.update()
@@ -305,11 +311,6 @@ def mainpage():
         logsenha.delete(0, len(logsenha.get()))
 
 #Filtro de adoção  
-    global p1, p2, p3, p4
-    p1 = 'Espécie'
-    p2 = 'Porte'
-    p3 = 'Idade'
-    p4 = 'Cor'
     def adotar():
         ad = ctki.CTkToplevel(janlog)
         ad.title('Adotar')
@@ -339,8 +340,78 @@ def mainpage():
             p2l = ctki.CTkLabel(prch, text= '2-' + p2, font=ctki.CTkFont(size=20))
             p3l = ctki.CTkLabel(prch, text= '3-' + p3, font=ctki.CTkFont(size=20))
             p4l = ctki.CTkLabel(prch, text= '4-' + p4, font=ctki.CTkFont(size=20))
-            alp = ctki.CTkButton(prch, text='Alterar Prioridades')
-            pv = ctki.CTkButton(prch, text='voltar', text_color='blue', hover=False, fg_color='transparent')
+            def ap():
+                prch.destroy()
+                apc = ctki.CTkToplevel(janlog)
+                apc.geometry('1000x600')
+                apc.title('Alterar Prioridades')
+                apc.columnconfigure(0, weight=1)
+                apc.columnconfigure(1, weight=1)
+                apc.rowconfigure(0, weight=1)
+                apc.rowconfigure(1, weight=1)
+                apc.rowconfigure(2, weight=1)
+                apc.rowconfigure(3, weight=1)
+                apc.rowconfigure(4, weight=1)
+                apc.rowconfigure(5, weight=1)
+                apct = ctki.CTkLabel(apc, text='Defina as Prioridades', font=ctki.CTkFont(size=40))
+                t1 = ctki.CTkLabel(apc, text='Prioridade 1-', font=ctki.CTkFont(size = 20))
+                apc1 = ctki.CTkComboBox(apc, values=lv, button_color='#069E6E', font=ctki.CTkFont(size = 20))
+                t2 = ctki.CTkLabel(apc, text='Prioridade 2-', font=ctki.CTkFont(size = 20))
+                apc2 = ctki.CTkComboBox(apc, values=lv, button_color='#069E6E', font=ctki.CTkFont(size = 20))
+                apc2.set(lv[1])
+                t3 = ctki.CTkLabel(apc, text='Prioridade 3-', font=ctki.CTkFont(size = 20))
+                apc3 = ctki.CTkComboBox(apc, values=lv, button_color='#069E6E', font=ctki.CTkFont(size = 20))
+                apc3.set(lv[2])
+                t4 = ctki.CTkLabel(apc, text='Prioridade 4-', font=ctki.CTkFont(size = 20))
+                apc4 = ctki.CTkComboBox(apc, values=lv, button_color='#069E6E', font=ctki.CTkFont(size = 20))
+                apc4.set(lv[3])
+                def av():
+                    apc.destroy()
+                    ad.deiconify()
+                apcv = ctki.CTkButton(apc, text='cancelar', command=av)
+                def pc():
+                    global p1, p2, p3, p4, lv
+                    p1t = apc1.get()
+                    p2t = apc2.get()
+                    p3t = apc3.get()
+                    p4t = apc4.get()
+                    if p1t == p2t or p1t == p3t or p1t == p4t or p2t == p3t or p2t == p4t or p3t == p4t:
+                        apc.withdraw()
+                        aper = ctki.CTkToplevel(janlog)
+                        aper.geometry('500x300')
+                        aper.title('ERRO')
+                        apel = ctki.CTkLabel(aper, text='Escolha opções diferentes para cada prioridade', font=ctki.CTkFont(size = 20))
+                        def aperok():
+                            aper.destroy()
+                            apc.deiconify()
+                        apeok = ctki.CTkButton(aper, text='OK', command=aperok)
+                        apel.pack(pady = 50)
+                        apeok.pack(pady = 10)
+                    else:
+                        p1 = p1t
+                        p2 = p2t                          p3 = p3t
+                        p4 = p4t
+                        lv = [p1, p2, p3, p4]
+                        apc.destroy()
+                        ad.deiconify()
+                apok = ctki.CTkButton(apc, text='confirmar', command=pc)
+                apct.grid(row = 0, column = 0, columnspan = 2)
+                t1.grid(row = 1, column = 0, sticky = 'e', padx = 10)
+                apc1.grid(row = 1, column = 1, sticky = 'w')
+                t2.grid(column = 0, row = 2, sticky = 'e', padx = 10)
+                apc2.grid(column = 1, row = 2, sticky = 'w')
+                t3.grid(column = 0, row = 3, sticky = 'e', padx = 10)
+                apc3.grid(column = 1, row = 3, sticky = 'w')
+                t4.grid(column = 0, row = 4, sticky = 'e', padx = 10)
+                apc4.grid(column = 1, row = 4, sticky = 'w')
+                apcv.grid(column = 0, row = 5, sticky = 'e', padx = 10)
+                apok.grid(column = 1, row = 5, sticky = 'w', padx = 10)
+
+            alp = ctki.CTkButton(prch, text='Alterar Prioridades', command=ap)
+            def adv():
+                prch.destroy()
+                ad.deiconify()
+            pv = ctki.CTkButton(prch, text='voltar', text_color='blue', hover=False, fg_color='transparent', command=adv)
             prchl.pack(pady = 40)
             p1l.pack(pady = 20)
             p2l.pack(pady = 10)
@@ -369,6 +440,7 @@ def mainpage():
 
 #Cálculo de valor adoção
         def prox():
+            global lv
             cat = catcheck.get()
             dog = dogcheck.get()
             c1 = c1check.get()
@@ -385,18 +457,33 @@ def mainpage():
             ci3 = ci3check.get()
             l = []
             lf = []
+            vt = 0
+            vp = 0
+            vi = 0
+            vc = 0
+            x = 100000
+            for i in lv:
+                x /= 10
+                if i == 'Cor':
+                    vc = x
+                elif i == 'Porte':
+                    vp = x
+                elif i == 'Idade':
+                    vi = x
+                else:
+                    vt = x
             for i in dba:
                 v = 0
                 if i['Tipo'] == cat or i['Tipo'] == dog:
-                    v += 1000
+                    v += vt
                 if i['Porte'] == cp1 or i['Porte'] == cp2 or i['Porte'] == cp3:
-                    v += 100
+                    v += vp
                 if i['Idade'] == ci1 or i['Idade'] == ci2 or i['Idade'] == ci3:
-                    v += 50
+                    v += vi
                 if i['Cor'].count(c1) == 1 or i['Cor'].count(c2) == 1 or i['Cor'].count(c3) == 1 or i['Cor'].count(c4) == 1 or i['Cor'].count(c5) == 1 or i['Cor'].count(c6) == 1:
-                    v += 10                
+                    v += vc                
                 l.append(v)
-                l2 = sorted(l, reverse=True)               
+                l2 = sorted(l, reverse=True)              
                 lf.insert(l2.index(v), i['Foto'])
                 
 #Escolha de pet adoção
@@ -516,7 +603,7 @@ def mainpage():
         volbu = ctki.CTkButton(ad, text='voltar', text_color='blue', hover=False, fg_color='transparent', command=volbul)
 
         adlab.grid(row = 0, column = 2, ipady = 10, sticky = 'w')
-        adpch.grid(row = 1, column = 2, ipady = 10)
+        adpch.grid(row = 5, column = 2, sticky = 's')
         catcheck.grid(row = 1, column = 1, ipadx = 10, ipady = 10, sticky = 'we')
         dogcheck.grid(row = 1, column = 3, ipadx = 10, ipady = 10, sticky = 'we')
         
